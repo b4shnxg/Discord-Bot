@@ -428,6 +428,9 @@ async def on_interaction(interaction: discord.Interaction):
 @bot.command(name="help")
 async def help_cmd(ctx):
     categories = {
+        "🎫 Ticket": {
+            f"{BOT_PREFIX}ticket": "Send the ticket panel (only admin can use this)."
+        },
         "🧹 Moderation": {
             f"{BOT_PREFIX}purge <amount>": "Delete messages in the channel.",
             f"{BOT_PREFIX}nuke [reason]": "Recreate the channel from scratch.",
@@ -478,18 +481,23 @@ async def help_cmd(ctx):
             f"{BOT_PREFIX}levelset @user <level>": "Set a user's level."
         }
     }
+
     colors = {
+        "🎫 Ticket": 0x1ABC9C,
         "🧹 Moderation": 0xED4245,
         "🧑‍🤝‍🧑 Users": 0x3BA55D,
         "ℹ️ Server & Roles": 0xFEE75C,
         "🛠️ Utilities": 0xEB459E,
-        "🧷 Antilink": 0x9b59b6,
+        "🧷 Antilink": 0x9B59B6,
         "🏅 Levels": 0x00B8FF
     }
+
     def avatar_url_safe(member: discord.Member):
         return member.avatar.url if member and member.avatar else None
+
     def build_divider():
         return "┈ ┈ ┈ ┈ ┈ ┈ ┈ ┈ ┈"
+
     def build_home_embed() -> discord.Embed:
         cats_list = "\n".join([f"{name}" for name in categories.keys()])
         e = discord.Embed(
@@ -513,6 +521,7 @@ async def help_cmd(ctx):
             e.set_image(url=BANNER_URL)
         e.set_footer(text=f"Requested by {ctx.author}", icon_url=avatar_url_safe(ctx.author))
         return e
+
     def build_category_embed(category_name: str, commands_dict: dict) -> discord.Embed:
         e = discord.Embed(
             title=f"{category_name}",
@@ -526,6 +535,7 @@ async def help_cmd(ctx):
             e.set_thumbnail(url=THUMB_URL)
         e.set_footer(text=f"Requested by {ctx.author}")
         return e
+
     class CategoryMenu(discord.ui.Select):
         def __init__(self, parent_view, author):
             self.parent_view = parent_view
@@ -540,6 +550,7 @@ async def help_cmd(ctx):
                 for c in categories.keys()
             ]
             super().__init__(placeholder="Choose a category…", min_values=1, max_values=1, options=options)
+
         async def callback(self, interaction: discord.Interaction):
             if interaction.user.id != self.author.id:
                 return await interaction.response.send_message("Only the command invoker can use this menu.", ephemeral=True)
@@ -547,6 +558,7 @@ async def help_cmd(ctx):
             embed = build_category_embed(category, categories[category])
             self.parent_view.current_embed = embed
             await interaction.response.edit_message(embed=embed, view=self.parent_view)
+
     class HelpView(discord.ui.View):
         def __init__(self, author: discord.Member):
             super().__init__(timeout=300)
@@ -555,6 +567,7 @@ async def help_cmd(ctx):
             self.add_item(CategoryMenu(self, author))
             self.add_item(self.HomeButton())
             self.add_item(self.CloseButton())
+
         async def on_timeout(self):
             for item in self.children:
                 item.disabled = True
@@ -562,9 +575,11 @@ async def help_cmd(ctx):
                 await self.message.edit(view=self)
             except:
                 pass
+
         class HomeButton(discord.ui.Button):
             def __init__(self):
                 super().__init__(label="Home", style=discord.ButtonStyle.success, emoji="🏠")
+
             async def callback(self, interaction: discord.Interaction):
                 view: HelpView = self.view
                 if interaction.user.id != view.author.id:
@@ -572,9 +587,11 @@ async def help_cmd(ctx):
                 embed = build_home_embed()
                 view.current_embed = embed
                 await interaction.response.edit_message(embed=embed, view=view)
+
         class CloseButton(discord.ui.Button):
             def __init__(self):
                 super().__init__(label="Close", style=discord.ButtonStyle.danger, emoji="🛑")
+
             async def callback(self, interaction: discord.Interaction):
                 view: HelpView = self.view
                 if interaction.user.id != view.author.id:
@@ -582,6 +599,7 @@ async def help_cmd(ctx):
                 for item in view.children:
                     item.disabled = True
                 await interaction.response.edit_message(content="Help closed.", embed=None, view=view)
+
     view = HelpView(ctx.author)
     msg = await ctx.send(embed=view.current_embed, view=view)
     view.message = msg
