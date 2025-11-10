@@ -6,6 +6,7 @@ Built with discord.py 2.x and asyncio.
 ------------------------------------------------------------
 ✨ FEATURES
 ------------------------------------------------------------
+
 - Help UI with category selector.
 - Moderation: purge, nuke, ban, kick, unban, lock/unlock, slowmode, warns.
 - Tickets with claim/close buttons (auto-category detection).
@@ -23,6 +24,7 @@ Persistent data files are stored locally:
 ------------------------------------------------------------
 🧰 REQUIREMENTS
 ------------------------------------------------------------
+
 - Python 3.10+ (recommended 3.11+)
 - Discord bot with Privileged Gateway Intents enabled:
   - SERVER MEMBERS INTENT
@@ -40,6 +42,7 @@ requirements.txt:
 ------------------------------------------------------------
 🔐 ENVIRONMENT VARIABLES (.env)
 ------------------------------------------------------------
+
 Create a .env file in the project root:
 
     DISCORD_TOKEN=your_bot_token_here
@@ -52,6 +55,7 @@ The code uses python-dotenv to load variables automatically.
 ------------------------------------------------------------
 ▶️ RUNNING THE BOT
 ------------------------------------------------------------
+
 1. Enable Intents in the Discord Developer Portal.
 2. Invite the bot to your server with adequate permissions.
 3. Run:
@@ -63,6 +67,7 @@ Expected console output:
 ------------------------------------------------------------
 🧩 PERMISSIONS & INTENTS CHECKLIST
 ------------------------------------------------------------
+
 - Bot role above roles you want to moderate.
 - Channel permissions: View, Send, Manage Messages, Manage Channels.
 - Developer Portal: SERVER MEMBERS INTENT and MESSAGE CONTENT INTENT ON.
@@ -70,6 +75,7 @@ Expected console output:
 ------------------------------------------------------------
 📁 DATA FILES
 ------------------------------------------------------------
+
 - levels.json — message counts and levels
 - warns.json — warnings
 - antilink.json — anti-link settings
@@ -77,6 +83,7 @@ Expected console output:
 ------------------------------------------------------------
 🧪 COMMAND REFERENCE (summary)
 ------------------------------------------------------------
+
 Help: !help  
 Moderation: !purge, !nuke, !ban, !kick, !unban, !warn, !warnings, !warnremove, !lock, !unlock, !slowmode  
 Tickets: !ticket  
@@ -90,6 +97,7 @@ Utilities: !say, !ping, !uptime, !botinfo, !embedbuilder
 ------------------------------------------------------------
 🧭 NOTES
 ------------------------------------------------------------
+
 Keep .env secret and add to .gitignore.
 Ensure JSON files are writable in the working directory.
 Confirm all required permissions for full functionality.
@@ -97,4 +105,5 @@ Confirm all required permissions for full functionality.
 ------------------------------------------------------------
 📜 LICENSE
 ------------------------------------------------------------
+
 Created by Slasher B4sh, NXG Team
